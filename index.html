@@ -21,20 +21,39 @@
 
 <body>
     <div id="app">
-        <div class="page__wrapper">
-            <div v-for="(data, index) in questions.data[0]" class="question__wrap">
-                <div class="question" v-show="index === questionIndex">
-                    {{data.question}}
-                </div>
-            </div>
-            <section class="answers">
+        <div class="page__wrapper" v-if="questions">
+            <section class="questions">
                 <div class="row">
-                    <div class="col col-10">
+                    <div class="col-9">
+                        <div v-for="(data, index) in reverseItems" class="question__wrap">
+                            <div class="question" v-show="index === questionIndex">
+                                <div class="row">
+                                    <div class="col col-12">
+                                        <div class="question__index upper">Question {{index+1}} of {{questions.length}}</div>
+                                        <h1 class="title upper" v-html="data.acf.question.question_text"></h1>
+                                        <p class="select__all__text small">Select all that apply.</p>
+                                    </div>
+                                </div>
+                                <div class="row auto">
+                                    <div class="col" v-for="(data, index) in data.acf.question.answers">
+                                        <div class="answer text-center">
+                                            {{data.answer.answer_text}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-3">
 
                     </div>
-                    <div class="col col-2">
+                </div>
+            </section>
+            <section class="buttons">
+                <div class="row auto">
+                    <div class="col">
                         <button v-if="questionIndex > 0" v-on:click="prev">Prev</button>
-                        <button v-on:click="next">next</button>
+                        <button v-if="questionIndex !== totalQuestions -1" v-on:click="next">next</button>
                     </div>
                 </div>
             </section>

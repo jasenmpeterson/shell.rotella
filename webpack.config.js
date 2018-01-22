@@ -12,10 +12,10 @@ module.exports = {
     loaders: [
       {
         test: /\.(s*)css$/,
-        loader: ExtractTextPlugin.extract(["css-loader", "sass-loader"])
+        loader: ExtractTextPlugin.extract(["css-loader", "sass-loader", "resolve-url-loader", "sass-loader?sourceMap"])
       },
       {
-        test: /\.(svg|gif|png|eot|woff|ttf)$/,
+        test: /\.(svg|gif|png|eot|woff|woff2|ttf)$/,
         loaders: ["url-loader"]
       },
       {

@@ -1,3 +1,4 @@
+@import "../fonts/fonts.scss";
 @import "kube.scss";
 
 // ____Layout
@@ -5,10 +6,36 @@
 .page__wrapper {
   max-width: 75rem;
   margin: 0 auto;
+  padding: 5rem 0;
 }
 
 // ____Typography
 
-body {
-  font-family: "futura-pt";
+h1.title {
+ font-size: $heading-font-size-title;
+ font-family: $future-bold;
+}
+
+.select__all__text {
+  color: $color-red;
+}
+
+// ___Questions
+
+.question__index {
+  color: $color-yellow;
+  margin-bottom: 2rem;
+}
+
+// ___Answers
+
+.answer {
+  font-family: 'futura_lightregular';
+  width: 210px;
+  border: 1px solid $color-red;
+  color: $color-red;
+  border-radius: 25px;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
