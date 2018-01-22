@@ -25,7 +25,7 @@
             <section class="questions">
                 <div class="row">
                     <div class="col-9">
-                        <div v-for="(data, index) in reverseItems" class="question__wrap">
+                        <div v-for="(data, index) in reverseItems" class="question__wrap" :data-index="index">
                             <div class="question" v-show="index === questionIndex">
                                 <div class="row">
                                     <div class="col col-12">
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="row auto">
                                     <div class="col" v-for="(data, index) in data.acf.question.answers">
-                                        <div class="answer text-center">
+                                        <div class="answer text-center" v-on:click.once="optionSelected" :data-option="data.answer.answer_text">
                                             {{data.answer.answer_text}}
                                         </div>
                                     </div>

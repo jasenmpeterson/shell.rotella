@@ -4,7 +4,8 @@ let app = new Vue({
     return {
       questions: null,
       questionIndex: 0,
-      totalQuestions: null
+      selectedOptions: {},
+      index: 0
     }
   },
   created: function () {
@@ -24,6 +25,14 @@ let app = new Vue({
     },
     prev: function () {
       this.questionIndex--;
+    },
+    optionSelected: function (event) {
+      console.log("clicked");
+      app.selectedOptions[app.index++] = {
+        answers: {
+          selected: event.target.dataset.option
+        }
+      };
     }
   },
   computed: {

@@ -2367,4 +2367,5 @@ h1.title {
   border-radius: 25px;
   padding: 10px 0;
   margin-bottom: 20px;
-  font-size: 14px; }
+  font-size: 14px;
+  cursor: pointer; }
