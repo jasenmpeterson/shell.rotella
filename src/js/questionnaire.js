@@ -5,7 +5,7 @@ let app = new Vue({
       questions: null,
       questionIndex: 0,
       answers: new Array(),
-      questionName: null
+      completedQuiz: new Array()
     }
   },
   created: function () {
@@ -22,8 +22,9 @@ let app = new Vue({
   methods: {
     next: function () {
       this.questionIndex++;
-      console.log(app.questions);
-      console.log(app.questionIndex);
+      if (app.questions.length === this.questionIndex) {
+        this.quizComplete();
+      }
     },
     prev: function () {
       this.questionIndex--;
@@ -31,18 +32,23 @@ let app = new Vue({
     optionSelected: function (event) {
       app.answers.push({
         questionIndex: app.questionIndex,
+        question_weight: event.target.dataset.weight,
         answer: event.target.dataset.answer,
-        answer_weight: event.target.dataset.weight
+        correct_answer: event.target.dataset.correct
       })
-      // search for specified key in array populated by objects.
-      function search(key, myArray) {
-        for (let i = 0; i < myArray.length; i++) {
-          if (myArray[i].questionIndex === key) {
-            console.log(myArray[i]);
-          }
+    },
+    search: function (key, myArray) {
+      for (let i = 0; i < myArray.length; i++) {
+        if (myArray[i].correct_answer === "True") {
+          this.completedQuiz.push({
+            answer: myArray[i].answer,
+            question_weight: myArray[i].question_weight
+          })
         }
       }
-      search(app.questionIndex, app.answers);
+    },
+    quizComplete: function () {
+      this.search("correct_answer", app.answers)
     }
   },
   computed: {
