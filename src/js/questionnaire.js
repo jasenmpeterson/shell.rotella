@@ -4,8 +4,8 @@ let app = new Vue({
     return {
       questions: null,
       questionIndex: 0,
-      selectedOptions: {},
-      index: 0
+      answers: new Array(),
+      questionName: null
     }
   },
   created: function () {
@@ -22,17 +22,26 @@ let app = new Vue({
   methods: {
     next: function () {
       this.questionIndex++;
+      console.log(app.questions);
+      console.log(app.questionIndex);
     },
     prev: function () {
       this.questionIndex--;
     },
     optionSelected: function (event) {
-      console.log("clicked");
-      app.selectedOptions[app.index++] = {
-        answers: {
-          selected: event.target.dataset.option
+      app.answers.push({
+        questionIndex: app.questionIndex,
+        answer: event.target.dataset.option
+      })
+      // search for specified key in array populated by objects.
+      function search(key, myArray) {
+        for (let i = 0; i < myArray.length; i++) {
+          if (myArray[i].questionIndex === key) {
+            console.log(myArray[i]);
+          }
         }
-      };
+      }
+      search(app.questionIndex, app.answers);
     }
   },
   computed: {
