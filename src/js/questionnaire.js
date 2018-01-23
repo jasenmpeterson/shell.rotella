@@ -31,7 +31,8 @@ let app = new Vue({
     optionSelected: function (event) {
       app.answers.push({
         questionIndex: app.questionIndex,
-        answer: event.target.dataset.option
+        answer: event.target.dataset.answer,
+        answer_weight: event.target.dataset.weight
       })
       // search for specified key in array populated by objects.
       function search(key, myArray) {
