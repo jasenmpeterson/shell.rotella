@@ -4,17 +4,23 @@ let app = new Vue({
     return {
       questions: null,
       questionIndex: 0,
+      products: new Array(),
       answers: new Array(),
-      completedQuiz: new Array()
+      completedQuiz: new Array(),
+      recommendations: new Array()
     }
   },
   created: function () {
     axios
-      .get("http://rotella.api.ellpreview.com/wp-json/wp/v2/question")
-      .then(function (response) {
-        app.questions = response.data;
-        app.totalQuestions = response.data.length;
-      })
+      .all([
+        axios.get("http://rotella.api.ellpreview.com/wp-json/wp/v2/question"),
+        axios.get("http://rotella.api.ellpreview.com/wp-json/wp/v2/products")
+      ])
+      .then(axios.spread((questions, products) => {
+        app.questions = questions.data;
+        app.totalQuestions = questions.data.length;
+        app.products = products.data;
+      }))
       .catch(function (error) {
         console.log(error);
       });
@@ -30,11 +36,13 @@ let app = new Vue({
       this.questionIndex--;
     },
     optionSelected: function (event) {
+      var index = event.target.dataset.id
+      console.log(this.questionIndex);
       app.answers.push({
         questionIndex: app.questionIndex,
         question_weight: event.target.dataset.weight,
         answer: event.target.dataset.answer,
-        correct_answer: event.target.dataset.correct
+        recommendations: this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations
       })
     },
     search: function (key, myArray) {
