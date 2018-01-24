@@ -36,12 +36,12 @@ let app = new Vue({
       this.questionIndex--;
     },
     optionSelected: function (event) {
-      var index = event.target.dataset.id
-      console.log(this.questionIndex);
+      var index = event.target.parentNode.dataset.id;
+      event.target.parentNode.classList.add("active");
       app.answers.push({
         questionIndex: app.questionIndex,
-        question_weight: event.target.dataset.weight,
-        answer: event.target.dataset.answer,
+        question_weight: event.target.parentNode.dataset.weight,
+        answer: event.target.parentNode.dataset.answer,
         recommendations: this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations
       })
     },

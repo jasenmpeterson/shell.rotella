@@ -2361,11 +2361,90 @@ h1.title {
 
 .answer {
   font-family: 'futura_lightregular';
-  width: 210px;
   border: 1px solid #EE3224;
+  padding: 10px 20px;
   color: #EE3224;
-  border-radius: 25px;
-  padding: 10px 0;
   margin-bottom: 20px;
   font-size: 14px;
-  cursor: pointer; }
+  cursor: pointer;
+  position: relative; }
+
+.button__text {
+  position: relative;
+  z-index: 2;
+  transition: all 0.1s ease-in;
+  display: inline-block; }
+
+.answer,
+.round {
+  border-radius: 25px; }
+
+.round {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  background-color: #EE3224;
+  top: 0;
+  bottom: 0;
+  right: 3px;
+  margin: auto;
+  opacity: 0;
+  transition: all 300ms ease-out; }
+
+.answer:hover {
+  color: #ffffff; }
+
+.answer:hover .round {
+  width: calc(100% - 6px);
+  opacity: 1; }
+
+.checkmark,
+.checkmark:after {
+  width: 6px;
+  height: 12px; }
+
+.checkmark {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  opacity: 0;
+  transition: all 300ms ease-out;
+  transition-delay: 250ms;
+  transform: translateY(10px); }
+
+.checkmark:after {
+  /*Add another block-level blank space*/
+  content: '';
+  display: block;
+  /*Add a white border on the bottom and left, creating that 'L' */
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  /*Rotate the L 45 degrees to turn it into a checkmark*/
+  transform: rotate(45deg); }
+
+.answer.active .round {
+  width: calc(100% - 6px);
+  opacity: 1; }
+
+.answer.active .checkmark {
+  opacity: 1;
+  transform: translateY(0); }
+
+.answer.active .button__text {
+  transform: translateX(-10px);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  transition-delay: 325ms; }
+
+.answer.active:hover .button__text {
+  transform: translateX(0);
+  opacity: 1; }
+
+.answer.active:hover .checkmark {
+  opacity: 0;
+  transform: translateY(10px); }
