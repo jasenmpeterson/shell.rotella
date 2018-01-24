@@ -52,7 +52,7 @@
                     <div class="col col-3">
                         <p class="suggested__lubricants small">Suggested Shell Lubricants:</p>
                         <div v-for="(productData, index) in products">
-                            <div class="product">
+                            <div class="product" :data-name="productData.title.rendered">
                                 {{productData.title.rendered}}
                             </div>
                         </div>

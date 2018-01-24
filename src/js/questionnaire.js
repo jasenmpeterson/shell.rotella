@@ -5,6 +5,7 @@ let app = new Vue({
       questions: null,
       questionIndex: 0,
       products: new Array(),
+      productsStatic: new Array(),
       answers: new Array(),
       completedQuiz: new Array(),
       recommendations: new Array()
@@ -20,6 +21,7 @@ let app = new Vue({
         app.questions = questions.data;
         app.totalQuestions = questions.data.length;
         app.products = products.data;
+        app.productsStatic = products.data;
       }))
       .catch(function (error) {
         console.log(error);
@@ -44,19 +46,14 @@ let app = new Vue({
         answer: event.target.parentNode.dataset.answer,
         recommendations: this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations
       })
+      this.filterRecommendations();
     },
-    search: function (key, myArray) {
-      for (let i = 0; i < myArray.length; i++) {
-        if (myArray[i].correct_answer === "True") {
-          this.completedQuiz.push({
-            answer: myArray[i].answer,
-            question_weight: myArray[i].question_weight
-          })
+    filterRecommendations: function () {
+      for (var value of this.answers) {
+        for (var recommendation of value.recommendations) {
+          document.querySelector("[data-name='" + recommendation.post_title + "']").classList.add("active");
         }
-      }
-    },
-    quizComplete: function () {
-      this.search("correct_answer", app.answers)
+      };
     }
   },
   computed: {
