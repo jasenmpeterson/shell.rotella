@@ -22,9 +22,9 @@
 <body>
     <div id="app">
         <div class="page__wrapper" v-if="questions">
-            <section class="questions">
+            <section class="questions" v-show="questionIndex !== questions.length">
                 <div class="row gutters">
-                    <div class="col col-9 questions__column">
+                    <div class="col col-8 questions__column">
                         <transition-group name="fade" tag="div">
                             <div v-for="(questionData, index) in reverseItems" class="question__wrap" :data-index="index" :key="index" v-show="index === questionIndex">
                                 <div class="question">
@@ -49,11 +49,16 @@
                             </div>
                         </transition-group>
                     </div>
-                    <div class="col col-3">
+                    <div class="col col-4">
                         <p class="suggested__lubricants small">Suggested Shell Lubricants:</p>
                         <div v-for="(productData, index) in products">
-                            <div class="product" :data-name="productData.title.rendered">
-                                <span>{{productData.title.rendered}}</span>
+                            <div class="product gutters" :data-name="productData.title.rendered">
+                                <div class="col col-2">
+                                    <img class="product__image" v-bind:src="productData.better_featured_image.source_url" alt="">
+                                </div>
+                                <div class="col col-10">
+                                    <span>{{productData.title.rendered}}</span>
+                                </div>
                             </div>
                         </div>
                         <section class="buttons">
@@ -75,7 +80,30 @@
                 </div>
             </section>
             <section class="quiz__completed" v-show="questionIndex === questions.length">
-                Quiz Completed.
+                <h5 class="upper">Results</h5>
+                <div class="recommended__products__wrapper" v-if="answers">
+                    <div v-for="(data, index) in answers" class="recommended__product" v-if="data.recommendations !== null && data.recommendations !== '' ">
+                        <div class="row gutters" v-for="(recommended_product, index) in data.recommendations">
+                            <div class="col col-8">
+                                <h1 class="title">{{recommended_product.post_title}}</h1>
+                                <div class="content">
+                                    <h5 class="upper">Best Overall Match</h5>
+                                    <ul>
+                                        <li>- Exceptional wear protection for longer engine life </li>
+                                        <li>- Superior engine cleanliness for cleaner engine throughout oil drain interval</li>
+                                        <li>- Enhanced protection against oxidation for more efficient operation</li>
+                                        <li>- Increased shear stability for better viscosity control and optimal oil pressure</li>
+                                        <li>- Improved oil aeration</li>
+                                        <li>- Heightens emission control system durability</li>
+                                </div>
+                            </div>
+                            <div class="col col-4">
+                                <img src="http://rotella.api.ellpreview.com/wp-content/uploads/2018/01/rotella.png" />
+                                <a href="#">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>

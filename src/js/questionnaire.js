@@ -5,10 +5,9 @@ let app = new Vue({
       questions: null,
       questionIndex: 0,
       products: new Array(),
-      productsStatic: new Array(),
       answers: new Array(),
-      completedQuiz: new Array(),
-      recommendations: new Array()
+      currentProduct: null,
+      currentProducts: new Array()
     }
   },
   created: function () {
@@ -21,7 +20,6 @@ let app = new Vue({
         app.questions = questions.data;
         app.totalQuestions = questions.data.length;
         app.products = products.data;
-        app.productsStatic = products.data;
       }))
       .catch(function (error) {
         console.log(error);
@@ -30,8 +28,12 @@ let app = new Vue({
   methods: {
     next: function () {
       this.questionIndex++;
+      this.currentProducts = [];
+      this.currentProduct = null;
       if (app.questions.length === this.questionIndex) {
         this.quizComplete();
+      } else if (app.questions.length !== this.questionIndex) {
+        this.answers = [];
       }
     },
     prev: function () {
@@ -44,27 +46,30 @@ let app = new Vue({
         questionIndex: app.questionIndex,
         question_weight: event.target.parentNode.dataset.weight,
         answer: event.target.parentNode.dataset.answer,
-        recommendations: this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations
+        recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
       })
       this.filterRecommendations();
     },
     filterRecommendations: function () {
       var products = document.querySelectorAll(".product");
-      var currentProducts = new Array();
       // loop through answers which has recommendations object
       for (var value of this.answers) {
         // loop through recommendations and push the name to currentProducts array
         for (var recommendation of value.recommendations) {
-          currentProducts.push(recommendation.post_title);
-        }
-        // loop through currentProducts array
-        for (var currentProduct of currentProducts) {
-          // loop through products list and any found elements via the data-name attribute are set to active
-          for (var product of products) {
-            document.querySelector("[data-name='" + currentProduct + "'").classList.add("active");
-          }
+          this.currentProducts.push(recommendation.post_title);
         }
       };
+      // remove active states
+      for (var product of products) {
+        product.classList.remove("active");
+      }
+      // loop through currentProducts array and reapply active state to appropriate products
+      for (this.currentProduct of this.currentProducts) {
+        document.querySelector("[data-name='" + this.currentProduct + "'").classList.add("active");
+      }
+    },
+    quizComplete: function () {
+      console.log(this.answers);
     }
   },
   computed: {
