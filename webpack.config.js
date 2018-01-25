@@ -30,6 +30,12 @@ module.exports = {
       filename: "site.bundle.css",
       allChunks: true
     }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.optimize\.css$/g,
+      cssProcessor: require('cssnano'),
+      cssProcessorOptions: { discardComments: { removeAll: true } },
+      canPrint: true
+    }),
     new WriteFilePlugin(),
     new BrowserSyncPlugin({
       // browse to http://localhost:3000/ during development,

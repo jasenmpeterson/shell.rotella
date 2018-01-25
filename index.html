@@ -21,8 +21,8 @@
 
 <body>
     <div id="app">
-        <div class="page__wrapper" v-if="questions">
-            <section class="questions" v-show="questionIndex !== questions.length">
+        <div class="page__wrapper" v-show="questionIndex !== questions.length">
+            <section class="questions">
                 <div class="row gutters">
                     <div class="col col-8 questions__column">
                         <transition-group name="fade" tag="div">
