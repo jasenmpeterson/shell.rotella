@@ -49,9 +49,20 @@ let app = new Vue({
       this.filterRecommendations();
     },
     filterRecommendations: function () {
+      var products = document.querySelectorAll(".product");
+      var currentProducts = new Array();
+      // loop through answers which has recommendations object
       for (var value of this.answers) {
+        // loop through recommendations and push the name to currentProducts array
         for (var recommendation of value.recommendations) {
-          document.querySelector("[data-name='" + recommendation.post_title + "']").classList.add("active");
+          currentProducts.push(recommendation.post_title);
+        }
+        // loop through currentProducts array
+        for (var currentProduct of currentProducts) {
+          // loop through products list and any found elements via the data-name attribute are set to active
+          for (var product of products) {
+            document.querySelector("[data-name='" + currentProduct + "'").classList.add("active");
+          }
         }
       };
     }
