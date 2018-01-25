@@ -79,33 +79,40 @@
                     </div>
                 </div>
             </section>
-            <section class="quiz__completed" v-show="questionIndex === questions.length">
-                <h5 class="upper">Results</h5>
-                <div class="recommended__products__wrapper" v-if="answers">
-                    <div v-for="(data, index) in answers" class="recommended__product" v-if="data.recommendations !== null && data.recommendations !== '' ">
-                        <div class="row gutters" v-for="(recommended_product, index) in data.recommendations">
-                            <div class="col col-8">
-                                <h1 class="title">{{recommended_product.post_title}}</h1>
-                                <div class="content">
-                                    <h5 class="upper">Best Overall Match</h5>
-                                    <ul>
-                                        <li>- Exceptional wear protection for longer engine life </li>
-                                        <li>- Superior engine cleanliness for cleaner engine throughout oil drain interval</li>
-                                        <li>- Enhanced protection against oxidation for more efficient operation</li>
-                                        <li>- Increased shear stability for better viscosity control and optimal oil pressure</li>
-                                        <li>- Improved oil aeration</li>
-                                        <li>- Heightens emission control system durability</li>
+        </div>
+        <section class="quiz__completed" v-show="questionIndex === questions.length">
+            <div v-for="(data, index) in answers" v-if="data.recommendations !== null && data.recommendations !== '' " class="recommended__products__wrapper">
+                <div v-for="(recommended_product, index) in data.recommendations" class="recommended__product">
+                    <div class="row gutters">
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-8">
+                                    <h5 v-if="index === 0" class="upper results__title">Results</h5>
+                                    <h1 class="title">{{recommended_product.post_title}}</h1>
+                                    <div class="content">
+                                        <h5 class="upper">Best Overall Match</h5>
+                                        <ul>
+                                            <li>- Exceptional wear protection for longer engine life </li>
+                                            <li>- Superior engine cleanliness for cleaner engine throughout oil drain interval
+                                            </li>
+                                            <li>- Enhanced protection against oxidation for more efficient operation</li>
+                                            <li>- Increased shear stability for better viscosity control and optimal oil pressure
+                                            </li>
+                                            <li>- Improved oil aeration</li>
+                                            <li>- Heightens emission control system durability</li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col col-4">
-                                <img src="http://rotella.api.ellpreview.com/wp-content/uploads/2018/01/rotella.png" />
-                                <a href="#">Learn More</a>
+                                <div class="col col-4">
+                                    <img src="http://rotella.api.ellpreview.com/wp-content/uploads/2018/01/rotella.png" />
+                                    <a href="#">Learn More</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
     </div>
     <script src="./dist/bundle.min.js"></script>
 </body>

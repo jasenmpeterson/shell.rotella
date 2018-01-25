@@ -313,23 +313,35 @@ button:after {
 
 .recommended__product ul {
   list-style-type: none;
+  margin-left: 0;
 }
 
 .recommended__product h5 {
   padding-bottom: 10px;
-  border-bottom: 1px solid #ffffff;
 }
 
 .recommended__product a {
   font-family: 'futura_lightregular';
-  border: 1px solid $color-red;
+  border: 1px solid #EE3224;
   padding: 10px 20px;
-  color: $color-red;
+  color: #EE3224;
   margin-bottom: 20px;
   font-size: 14px;
   cursor: pointer;
   position: relative;
   border-radius: 25px;
+  width: 180px;
+  display: block;
+  text-align: center;
+  background-color: #ffffff;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 25px auto;
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+}
+
+.recommended__product:nth-of-type(odd) h5 {
+  border-bottom: 1px solid #ffffff;
 }
 
 .recommended__product:nth-of-type(odd) {
@@ -355,4 +367,17 @@ button:after {
 .recommended__product:nth-of-type(even) h1,
 .recommended__product:nth-of-type(even) h5 {
   color: $color-red;
+}
+
+.recommended__product:nth-of-type(even) h5 {
+  border-bottom: 1px solid $color-red;
+}
+
+.recommended__product .row {
+  align-items: center;
+}
+
+.results__title {
+  border: none !important;
+  padding: 0 !important;
 }
