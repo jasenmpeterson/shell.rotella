@@ -7,7 +7,7 @@ let app = new Vue({
       products: new Array(),
       answers: new Array(),
       currentProduct: null,
-      currentProducts: new Array()
+      currentProducts: new Array(),
     }
   },
   created: function () {
@@ -27,14 +27,26 @@ let app = new Vue({
   },
   methods: {
     next: function () {
-      this.questionIndex++;
-      this.currentProducts = [];
-      this.currentProduct = null;
+
+      // make sure the question has been answered before proceeding
+
+      if (this.answers.length) {
+        this.questionIndex++;
+        this.currentProducts = [];
+        this.currentProduct = null;
+      } else {
+        this.modalPopUp("Please select an answer before proceeding.");
+      }
+
       if (app.questions.length === this.questionIndex) {
         this.quizComplete();
       } else if (app.questions.length !== this.questionIndex) {
         this.answers = [];
       }
+
+      // let heading = document.querySelector(".title");
+      // Splitting.chars(heading);
+
     },
     prev: function () {
       this.questionIndex--;
@@ -70,6 +82,16 @@ let app = new Vue({
     },
     quizComplete: function () {
       console.log(this.answers);
+    },
+    modalPopUp: function (message) {
+      let modal = document.querySelector(".modal-box");
+      let modalText = document.querySelector(".modal-body");
+      modalText.innerHTML = message;
+      modal.classList.add("active");
+    },
+    closeModalPopUp: function () {
+      let modal = document.querySelector(".modal-box");
+      modal.classList.remove("active");
     }
   },
   computed: {

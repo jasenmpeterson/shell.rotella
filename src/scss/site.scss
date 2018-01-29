@@ -1,5 +1,6 @@
 @import "../fonts/fonts.scss";
 @import "kube.scss";
+@import "~splitting";
 
 // ____Layout
 
@@ -44,6 +45,11 @@ h1.title {
 }
 
 // ___Answers
+
+.answer__wrap {
+  display: inline-block;
+  margin-right: 1rem;
+}
 
 .answer {
   font-family: 'futura_lightregular';
@@ -354,7 +360,10 @@ button:after {
   color: #ffffff
 }
 
-.recommended__product:nth-of-type(odd) h1 {
+.recommended__product:nth-of-type(odd) h1,
+.recommended__product:nth-of-type(odd) h5,
+.recommended__product:nth-of-type(odd) li,
+.results__title {
   text-shadow: rgba(0, 0, 0, 0.25) 1.05px 2.93109px 5.86219px;
 }
 
@@ -380,4 +389,34 @@ button:after {
 .results__title {
   border: none !important;
   padding: 0 !important;
+}
+
+// modal
+
+.modal-box {
+  max-width: 768px;
+  margin: 0 auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: -1;
+  opacity: 0;
+  transform: translateY(300px);
+  transition: 300ms transform ease-out, 300ms opacity ease-out 30ms;
+}
+
+.modal-box.active {
+  opacity: 1;
+  z-index: 200;
+  transform: translateY(250px);
+}
+
+.modal-body {
+  padding: 36px 32px;
+}
+
+span.close {
+  cursor: pointer;
 }

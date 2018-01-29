@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-if="questions">
         <div class="page__wrapper" v-show="questionIndex !== questions.length">
             <section class="questions">
                 <div class="row gutters">
@@ -35,8 +35,8 @@
                                             <p class="select__all__text small">Select all that apply.</p>
                                         </div>
                                     </div>
-                                    <div class="row auto gutters">
-                                        <div class="col" v-for="(answerData, index) in questionData.acf.question.answers">
+                                    <div class="answers">
+                                        <div class="answer__wrap" v-for="(answerData, index) in questionData.acf.question.answers">
                                             <div class="answer text-center" v-on:click.once="optionSelected" :data-answer="answerData.answer.answer_text" :data-weight="questionData.acf.question.question_weight"
                                                 :data-id="index">
                                                 <span class="button__text">{{answerData.answer.answer_text}}</span>
@@ -113,6 +113,14 @@
                 </div>
             </div>
         </section>
+        <div class="modal-box">
+            <div class="modal">
+                <span class="close" v-on:click="closeModalPopUp"></span>
+                <div class="modal-header">Whoops!</div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./dist/bundle.min.js"></script>
 </body>

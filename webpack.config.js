@@ -1,6 +1,8 @@
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var WriteFilePlugin = require("write-file-webpack-plugin");
 var BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require("path");
 
 module.exports = {
   entry: ["./src/js/app.js", "./src/scss/site.scss"],
@@ -52,7 +54,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      vue: "vue/dist/vue.js"
+      vue: "vue/dist/vue.js",
+      'splitting': path.join(__dirname, '/node_modules/splitting/splitting.css')
     }
   }
 };
