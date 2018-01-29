@@ -8,6 +8,7 @@ let app = new Vue({
       answers: new Array(),
       currentProduct: null,
       currentProducts: new Array(),
+      questionAnswered: false
     }
   },
   created: function () {
@@ -35,7 +36,7 @@ let app = new Vue({
         this.currentProducts = [];
         this.currentProduct = null;
       } else {
-        this.modalPopUp("Please select an answer before proceeding.");
+        this.modalPopUp("Please make a selection before proceeding.");
       }
 
       if (app.questions.length === this.questionIndex) {
@@ -52,15 +53,35 @@ let app = new Vue({
       this.questionIndex--;
     },
     optionSelected: function (event) {
-      var index = event.target.parentNode.dataset.id;
-      event.target.parentNode.classList.add("active");
-      app.answers.push({
-        questionIndex: app.questionIndex,
-        question_weight: event.target.parentNode.dataset.weight,
-        answer: event.target.parentNode.dataset.answer,
-        recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
-      })
-      this.filterRecommendations();
+
+      // has question been answered?
+
+      if (!this.questionAnswered) {
+        // the data-attribute is used to reference the index of the question being answered
+        var index = event.target.parentNode.dataset.id;
+        event.target.parentNode.classList.add("active");
+
+        // push selections to array for reference
+        app.answers.push({
+          questionIndex: app.questionIndex,
+          question_weight: event.target.parentNode.dataset.weight,
+          answer: event.target.parentNode.dataset.answer,
+          recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
+        });
+
+        // filter the suggested lubricants list
+        this.filterRecommendations();
+
+        var multipleChoice = this.questions[this.questionIndex].acf.question.multiple_choice;
+
+        // if it isn't a multiple choice question then set answered to true - ie. only one item can be selected at a time.
+
+        if (multipleChoice !== "Yes") {
+          this.questionAnswered = true;
+        }
+
+      }
+
     },
     filterRecommendations: function () {
       var products = document.querySelectorAll(".product");

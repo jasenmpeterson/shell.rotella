@@ -52,7 +52,7 @@ h1.title {
 }
 
 .answer {
-  font-family: 'futura_lightregular';
+  font-family: 'futura_mediumregular';
   border: 1px solid $color-red;
   padding: 10px 20px;
   color: $color-red;
@@ -327,7 +327,7 @@ button:after {
 }
 
 .recommended__product a {
-  font-family: 'futura_lightregular';
+  font-family: 'futura_mediumregular';
   border: 1px solid #EE3224;
   padding: 10px 20px;
   color: #EE3224;
@@ -343,7 +343,7 @@ button:after {
   text-decoration: none;
   font-size: 18px;
   margin: 25px auto;
-  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12)
 }
 
 .recommended__product:nth-of-type(odd) h5 {
@@ -405,6 +405,16 @@ button:after {
   opacity: 0;
   transform: translateY(300px);
   transition: 300ms transform ease-out, 300ms opacity ease-out 30ms;
+}
+
+.modal {
+  box-shadow: 0 1.5px 4px rgba(0, 0, 0, 0.24), 0 1.5px 6px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+.modal-header {
+  color: $color-red;
+  font-family: 'futura_boldregular';
 }
 
 .modal-box.active {

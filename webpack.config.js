@@ -1,7 +1,9 @@
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var WriteFilePlugin = require("write-file-webpack-plugin");
-var BrowserSyncPlugin = require("browser-sync-webpack-plugin");
-var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const WriteFilePlugin = require("write-file-webpack-plugin");
+const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BabelMinifyPlugin = require("babel-minify-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -14,23 +16,25 @@ module.exports = {
     loaders: [
       {
         test: /\.(s*)css$/,
-        loader: ExtractTextPlugin.extract(["css-loader", "sass-loader", "resolve-url-loader", "sass-loader?sourceMap"])
+        loader: ExtractTextPlugin.extract(["css-loader", "sass-loader", "resolve-url-loader", "sass-loader?sourceMap"]),
+        exclude: "/node_modules"
       },
       {
         test: /\.(svg|gif|png|eot|woff|woff2|ttf)$/,
-        loaders: ["url-loader"]
+        loaders: ["url-loader"],
+        exclude: "/node_modules"
       },
       {
         test: /\.js$/,
-        loader: "babel-loader?presets[]=es2015"
+        loader: "babel-loader?presets[]=es2015",
+        exclude: "/node_modules"
       }
     ]
   },
   plugins: [
     new ExtractTextPlugin({
       // define where to save the file
-      filename: "site.bundle.css",
-      allChunks: true
+      filename: "site.bundle.css"
     }),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.optimize\.css$/g,
@@ -47,7 +51,9 @@ module.exports = {
       proxy: "http://localhost:8421/",
       files: "src/*",
       files: "index.html"
-    })
+    }),
+    // new UglifyJsPlugin(),
+    // new BabelMinifyPlugin()
   ],
   devServer: {
     port: 8421
