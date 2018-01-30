@@ -32,12 +32,12 @@
                                         <div class="col col-12">
                                             <div class="question__index upper">Question {{index+1}} of {{questions.length}}</div>
                                             <h1 class="title upper" v-html="questionData.acf.question.question_text"></h1>
-                                            <p class="select__all__text small" v-show="questionData.acf.question.multiple_choice === 'Yes'">Select all that apply.</p>
                                         </div>
                                     </div>
                                     <div class="answers">
+                                        <p class="select__all__text small" v-show="questionData.acf.question.multiple_choice === 'Yes'">Select all that apply.</p>
                                         <div class="answer__wrap" v-for="(answerData, index) in questionData.acf.question.answers">
-                                            <div class="answer text-center" v-on:click.once="optionSelected" :data-answer="answerData.answer.answer_text" :data-weight="questionData.acf.question.question_weight"
+                                            <div class="answer text-center" v-on:click="optionSelected" :data-answer="answerData.answer.answer_text" :data-weight="questionData.acf.question.question_weight"
                                                 :data-id="index">
                                                 <span class="button__text">{{answerData.answer.answer_text}}</span>
                                                 <span class="checkmark"></span>
@@ -68,9 +68,8 @@
                                         <span>previous</span>
                                     </button>
                                 </div>
-                                <div class="col">
-                                    <button class="next quiz__button" v-bind:class="[questionIndex > 0 ? 'align__right' : '']" v-if="questionIndex !== questions.length"
-                                        v-on:click="next">
+                                <div class="col text-right">
+                                    <button class="next quiz__button" v-if="questionIndex !== questions.length" v-on:click="next">
                                         <span>next</span>
                                     </button>
                                 </div>
@@ -103,7 +102,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col col-4">
+                                <div class="col col-3">
                                     <img src="http://rotella.api.ellpreview.com/wp-content/uploads/2018/01/rotella.png" />
                                     <a href="#">Learn More</a>
                                 </div>

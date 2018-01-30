@@ -2411,6 +2411,14 @@ button:hover,
   margin: 0 auto;
   padding: 5rem 0; }
 
+.question {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; }
+
+.question .row {
+  margin-top: auto; }
+
 .questions__column > div {
   position: relative;
   height: 100%; }
@@ -2434,6 +2442,9 @@ h1.title {
 .question__index {
   color: #FFD200;
   margin-bottom: 2rem; }
+
+.answers {
+  margin-top: auto; }
 
 .answer__wrap {
   display: inline-block;
@@ -2515,7 +2526,7 @@ h1.title {
   transform: translateX(0); }
 
 .answer.active .button__text {
-  transform: translateX(5px);
+  transform: translateX(8px);
   transition: all 0.3s ease-out;
   transition-delay: 325ms;
   color: #ffffff; }
@@ -2578,6 +2589,9 @@ h1.title {
 .fade-leave-to {
   opacity: 0; }
 
+.buttons {
+  margin-top: 3rem; }
+
 button {
   width: 60px;
   height: 60px;
@@ -2598,10 +2612,6 @@ button span {
   color: #AEB0B2;
   bottom: -30px;
   transition: all 300ms ease-out; }
-
-button.align__right {
-  transition: all 300ms ease-out;
-  transform: translateX(130px); }
 
 button:hover {
   background: #FFD200; }
@@ -2662,6 +2672,14 @@ button:after {
   list-style-type: none;
   margin-left: 0; }
 
+.recommended__product img {
+  display: block;
+  margin: 0 auto; }
+
+.recommended__product li {
+  letter-spacing: 0.05rem;
+  font-size: 1.2rem; }
+
 .recommended__product h5 {
   padding-bottom: 10px; }
 
@@ -2696,8 +2714,6 @@ button:after {
   color: #ffffff; }
 
 .recommended__product:nth-of-type(odd) h1,
-.recommended__product:nth-of-type(odd) h5,
-.recommended__product:nth-of-type(odd) li,
 .results__title {
   text-shadow: rgba(0, 0, 0, 0.25) 1.05px 2.93109px 5.86219px; }
 
