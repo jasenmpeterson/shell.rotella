@@ -79,8 +79,21 @@ let app = new Vue({
         target.classList.remove("active");
 
       } else {
+
         target.classList.add("active");
         this.questionAnswered = true;
+
+        // Push selected answer(s) to answers array
+
+        app.answers.push({
+          questionIndex: app.questionIndex,
+          question_weight: target.dataset.weight,
+          answer: target.dataset.answer,
+          recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
+        });
+
+        this.filterRecommendations();
+
       }
 
       // If there are no selected answers or if answers have been de-selected, set questionAnswered to false
@@ -90,17 +103,6 @@ let app = new Vue({
       if (!selectedAnswers.length) {
         this.questionAnswered = false;
       }
-
-      // Push selected answer(s) to answers array
-
-      app.answers.push({
-        questionIndex: app.questionIndex,
-        question_weight: target.dataset.weight,
-        answer: target.dataset.answer,
-        recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
-      });
-
-      this.filterRecommendations();
 
     },
     filterRecommendations: function () {
