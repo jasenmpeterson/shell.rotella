@@ -8,6 +8,8 @@ let app = new Vue({
       answers: new Array(),
       currentProduct: null,
       currentProducts: new Array(),
+      questionAnswered: false,
+      multipleChoice: false
     }
   },
   created: function () {
@@ -30,10 +32,11 @@ let app = new Vue({
 
       // make sure the question has been answered before proceeding
 
-      if (this.answers.length) {
+      if (this.questionAnswered) {
         this.questionIndex++;
         this.currentProducts = [];
         this.currentProduct = null;
+        this.questionAnswered = false;
       } else {
         this.modalPopUp("Please select an answer before proceeding.");
       }
@@ -50,17 +53,55 @@ let app = new Vue({
     },
     prev: function () {
       this.questionIndex--;
+      var selectedAnswers = document.querySelectorAll(".answer.active");
+      if (selectedAnswers.length) {
+        this.questionAnswered = true;
+      }
     },
     optionSelected: function (event) {
-      var index = event.target.parentNode.dataset.id;
-      event.target.parentNode.classList.add("active");
+
+      // even target
+
+      var target = event.target.parentNode;
+
+      // even target id
+
+      var index = target.dataset.id;
+
+      // is question multiple choice?
+
+      var multiple_choice = (this.questions[this.questionIndex].acf.question.multiple_choice === "Yes" ? true : false);
+
+      // set selected answer to an active state, set questionAnswered to true
+
+      if (target.classList.contains("active")) {
+
+        target.classList.remove("active");
+
+      } else {
+        target.classList.add("active");
+        this.questionAnswered = true;
+      }
+
+      // If there are no selected answers or if answers have been de-selected, set questionAnswered to false
+
+      var selectedAnswers = document.querySelectorAll(".answer.active");
+
+      if (!selectedAnswers.length) {
+        this.questionAnswered = false;
+      }
+
+      // Push selected answer(s) to answers array
+
       app.answers.push({
         questionIndex: app.questionIndex,
-        question_weight: event.target.parentNode.dataset.weight,
-        answer: event.target.parentNode.dataset.answer,
+        question_weight: target.dataset.weight,
+        answer: target.dataset.answer,
         recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
-      })
+      });
+
       this.filterRecommendations();
+
     },
     filterRecommendations: function () {
       var products = document.querySelectorAll(".product");
