@@ -12,6 +12,7 @@ module.exports = {
     path: __dirname + "/dist",
     filename: "bundle.min.js"
   },
+  devtool: "source-map",
   module: {
     loaders: [
       {

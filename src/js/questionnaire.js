@@ -6,8 +6,7 @@ let app = new Vue({
       questionIndex: 0,
       products: new Array(),
       answers: new Array(),
-      currentProduct: null,
-      currentProducts: new Array(),
+      currentRecommendations: new Array(),
       questionAnswered: false,
       multipleChoice: false
     }
@@ -60,11 +59,15 @@ let app = new Vue({
     },
     optionSelected: function (event) {
 
-      // even target
+      // event target
 
       var target = event.target.parentNode;
 
-      // even target id
+      // event name
+
+      var targetName = event.target.parentNode.dataset.answer;
+
+      // event target id
 
       var index = target.dataset.id;
 
@@ -77,6 +80,8 @@ let app = new Vue({
       if (target.classList.contains("active")) {
 
         target.classList.remove("active");
+
+        this.updateFilter(targetName);
 
       } else {
 
@@ -92,7 +97,8 @@ let app = new Vue({
           recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
         });
 
-        this.filterRecommendations();
+
+        this.filterRecommendations(target.dataset.answer);
 
       }
 
@@ -101,27 +107,62 @@ let app = new Vue({
       var selectedAnswers = document.querySelectorAll(".answer.active");
 
       if (!selectedAnswers.length) {
+
         this.questionAnswered = false;
+
       }
 
     },
-    filterRecommendations: function () {
+    filterRecommendations: function (eventTarget) {
+
       var products = document.querySelectorAll(".product");
-      // loop through answers which has recommendations object
+
+      // loop through answers which has a recommendations object
+
       for (var value of this.answers) {
+
         // loop through recommendations and push the name to currentProducts array
+
         for (var recommendation of value.recommendations) {
-          this.currentProducts.push(recommendation.post_title);
+          this.currentRecommendations.push({
+            answer: value.answer,
+            recommendation: recommendation.post_title
+          });
         }
+
       };
+
       // remove active states
+
       for (var product of products) {
         product.classList.remove("active");
       }
+
       // loop through currentProducts array and reapply active state to appropriate products
-      for (this.currentProduct of this.currentProducts) {
-        document.querySelector("[data-name='" + this.currentProduct + "'").classList.add("active");
+
+      var currentRecommendation = null;
+
+      for (currentRecommendation of this.currentRecommendations) {
+        var currentNode = document.querySelector("[data-name='" + currentRecommendation.recommendation + "']");
+        currentNode.classList.add("active");
       }
+
+    },
+    updateFilter: function (product) {
+
+      // Thank you!!!! -- https://stackoverflow.com/a/16100446
+      // var arrayOfObjects = [{ a: 1, aa: "two" }];
+      // var elementPos = arrayOfObjects.map(function (x) { return x.a; }).indexOf(1);
+      // var objectFound = arrayOfObjects[elementPos];
+
+      // search for recommended product in currentRecommendations array
+      var elementPos = this.currentRecommendations.map(function (x) { return x.answer; }).indexOf(product);
+      var objectFound = this.currentRecommendations[elementPos];
+
+      console.log(elementPos, objectFound.recommendation);
+      var currentNode = document.querySelector("[data-name='" + objectFound.recommendation + "']");
+      currentNode.classList.remove("active");
+
     },
     quizComplete: function () {
       console.log(this.answers);
@@ -134,7 +175,7 @@ let app = new Vue({
     },
     closeModalPopUp: function () {
       let modal = document.querySelector(".modal-box");
-      modal.classList.remove("active");
+      modal.classList.remove("active")
     }
   },
   computed: {
