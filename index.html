@@ -37,8 +37,8 @@
                                     <div class="answers">
                                         <p class="select__all__text small" v-show="questionData.acf.question.multiple_choice === 'Yes'">Select all that apply.</p>
                                         <div class="answer__wrap" v-for="(answerData, index) in questionData.acf.question.answers">
-                                            <div class="answer text-center" v-on:click="optionSelected" :data-answer="answerData.answer.answer_text" :data-weight="questionData.acf.question.question_weight"
-                                                :data-id="index">
+                                            <div class="answer text-center" v-on:click="optionSelected" :data-answer="answerData.answer.answer_text" :data-id="index"
+                                                :data-weight="questionData.acf.question.question_weight" :data-id="index">
                                                 <span class="button__text">{{answerData.answer.answer_text}}</span>
                                                 <span class="checkmark"></span>
                                                 <span class="round"></span>

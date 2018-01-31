@@ -91,6 +91,7 @@ let app = new Vue({
 
         app.answers.push({
           questionIndex: app.questionIndex,
+          id: target.dataset.id,
           question_weight: target.dataset.weight,
           answer: target.dataset.answer,
           recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
@@ -122,10 +123,10 @@ let app = new Vue({
 
         // loop through recommendations and push the name to currentProducts array
 
-
         for (var recommendation of value.recommendations) {
           this.currentRecommendations.push({
             answer: value.answer,
+            id: value.id,
             recommendation: recommendation.post_title
           });
         }
@@ -165,10 +166,11 @@ let app = new Vue({
       var currentNode = document.querySelector("[data-name='" + objectFound.recommendation + "']");
       currentNode.classList.remove("active");
 
+
       // filter through the currentRecommendations object and return only objects that DO NOT have the specified value
 
       let newCurrentRecommendationObject = this.currentRecommendations.filter(function (item) {
-        return item.recommendation !== objectFound.recommendation;
+        return item.id !== objectFound.id;
       });
 
       // update recommdended product filter
@@ -176,7 +178,6 @@ let app = new Vue({
       this.currentRecommendations = newCurrentRecommendationObject;
 
       // filter through answers object and return only objects that DO NOT have the specified value
-
 
       let newAnswerObject = this.answers.filter(function (item) {
         return item.answer !== objectFound.answer;
@@ -186,6 +187,14 @@ let app = new Vue({
 
       this.answers = newAnswerObject;
 
+      // loop through currentProducts array and reapply active state to appropriate products
+
+      var currentRecommendation = null;
+
+      for (currentRecommendation of this.currentRecommendations) {
+        var currentNode = document.querySelector("[data-name='" + currentRecommendation.recommendation + "']");
+        currentNode.classList.add("active");
+      }
 
     },
     quizComplete: function () {
