@@ -7,8 +7,7 @@ let app = new Vue({
       products: new Array(),
       answers: new Array(),
       currentRecommendations: new Array(),
-      questionAnswered: false,
-      multipleChoice: false
+      questionAnswered: false
     }
   },
   created: function () {
@@ -123,6 +122,7 @@ let app = new Vue({
 
         // loop through recommendations and push the name to currentProducts array
 
+
         for (var recommendation of value.recommendations) {
           this.currentRecommendations.push({
             answer: value.answer,
@@ -156,12 +156,36 @@ let app = new Vue({
       // var objectFound = arrayOfObjects[elementPos];
 
       // search for recommended product in currentRecommendations array
+
       var elementPos = this.currentRecommendations.map(function (x) { return x.answer; }).indexOf(product);
       var objectFound = this.currentRecommendations[elementPos];
 
-      console.log(elementPos, objectFound.recommendation);
+      // remove active state from recommended product node
+
       var currentNode = document.querySelector("[data-name='" + objectFound.recommendation + "']");
       currentNode.classList.remove("active");
+
+      // filter through the currentRecommendations object and return only objects that DO NOT have the specified value
+
+      let newCurrentRecommendationObject = this.currentRecommendations.filter(function (item) {
+        return item.recommendation !== objectFound.recommendation;
+      });
+
+      // update recommdended product filter
+
+      this.currentRecommendations = newCurrentRecommendationObject;
+
+      // filter through answers object and return only objects that DO NOT have the specified value
+
+
+      let newAnswerObject = this.answers.filter(function (item) {
+        return item.answer !== objectFound.answer;
+      });
+
+      // update answers object
+
+      this.answers = newAnswerObject;
+
 
     },
     quizComplete: function () {
