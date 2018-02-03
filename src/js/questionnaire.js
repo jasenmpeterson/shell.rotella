@@ -31,8 +31,6 @@ let app = new Vue({
       // make sure the question has been answered before proceeding
 
       if (this.questionAnswered) {
-        this.currentProducts = [];
-        this.currentProduct = null;
         this.questionAnswered = false;
         this.storeRecommendations();
         this.questionIndex++;
@@ -125,7 +123,7 @@ let app = new Vue({
     },
     storeRecommendations: function () {
       this.recommendations[this.questionIndex] = this.answers;
-      this.answers = [];
+      // this.answers = [];
     },
     updateFilter: function (product) {
 
@@ -138,10 +136,12 @@ let app = new Vue({
       };
 
       let updatedFilter = this.answers.filter(function (obj) {
-        return obj.answer !== product;
+        return obj.questionIndex !== app.questionIndex;
       });
 
       this.answers = updatedFilter;
+
+      this.filterRecommendations();
 
     },
     quizComplete: function () {
