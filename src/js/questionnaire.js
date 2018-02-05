@@ -6,8 +6,8 @@ let app = new Vue({
       questionIndex: 0,
       products: [],
       answers: [],
-      recommendations: [],
       questionAnswered: false,
+      multipleChoice: false
     }
   },
   created: function () {
@@ -29,10 +29,10 @@ let app = new Vue({
     next: function () {
 
       // make sure the question has been answered before proceeding
+      // TODO: LOGIC FOR SINGLE ANSWER AND MULTIPLE CHOICE QUESTIONS.
 
       if (this.questionAnswered) {
         this.questionAnswered = false;
-        this.storeRecommendations();
         this.questionIndex++;
       } else {
         this.modalPopUp("Please select an answer before proceeding.");
@@ -68,7 +68,7 @@ let app = new Vue({
 
       // is question multiple choice?
 
-      var multiple_choice = (this.questions[this.questionIndex].acf.question.multiple_choice === "Yes" ? true : false);
+      var multipleChoice = (this.questions[this.questionIndex].acf.question.multiple_choice === "Yes" ? this.multipleChoice = true : this.multipleChoice = false);
 
       // set selected answer to an active state, set questionAnswered to true
 
@@ -76,32 +76,43 @@ let app = new Vue({
 
         target.classList.remove("active");
 
+        this.questionAnswered = false;
+
         this.updateFilter(targetName);
 
       } else {
 
         target.classList.add("active");
+
         this.questionAnswered = true;
 
         // Push selected answer(s) to answers array
 
         if (this.questions[this.questionIndex].acf.question.answers[index]) {
 
-          app.answers.push({
-            questionIndex: app.questionIndex,
-            id: target.dataset.id,
-            question_weight: target.dataset.weight,
-            answer: target.dataset.answer,
-            recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
-          });
+          if (!multipleChoice && !this.questionAnswered) {
+            app.answers.push({
+              questionIndex: app.questionIndex,
+              id: target.dataset.id,
+              question_weight: target.dataset.weight,
+              answer: target.dataset.answer,
+              recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
+            });
+          } else {
+            app.answers.push({
+              questionIndex: app.questionIndex,
+              id: target.dataset.id,
+              question_weight: target.dataset.weight,
+              answer: target.dataset.answer,
+              recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
+            });
+          }
 
         }
 
-        this.filterRecommendations(target.dataset.id);
+        this.filterRecommendations();
 
       }
-
-      // If there are no selected answers or if answers have been de-selected, set questionAnswered to false
 
       var selectedAnswers = document.querySelectorAll(".answer.active");
 
@@ -112,7 +123,7 @@ let app = new Vue({
       }
 
     },
-    filterRecommendations: function (eventTarget) {
+    filterRecommendations: function () {
 
       for (let obj of this.answers) {
         for (let recommendation of obj.recommendations) {
@@ -120,10 +131,6 @@ let app = new Vue({
         }
       };
 
-    },
-    storeRecommendations: function () {
-      this.recommendations[this.questionIndex] = this.answers;
-      // this.answers = [];
     },
     updateFilter: function (product) {
 
