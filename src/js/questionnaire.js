@@ -20,12 +20,16 @@ let app = new Vue({
         app.questions = questions.data;
         app.totalQuestions = questions.data.length;
         app.products = products.data;
+        this.isMultipleChoice();
       }))
       .catch(function (error) {
         console.log(error);
       });
   },
   methods: {
+    isMultipleChoice: function () {
+      app.multipleChoice = (this.reverseItems[app.questionIndex].acf.question.multiple_choice === "Yes" ? true : false);
+    },
     next: function () {
 
       // make sure the question has been answered before proceeding
@@ -34,6 +38,7 @@ let app = new Vue({
       if (this.questionAnswered) {
         this.questionAnswered = false;
         this.questionIndex++;
+        this.isMultipleChoice();
       } else {
         this.modalPopUp("Please select an answer before proceeding.");
       }
@@ -47,6 +52,7 @@ let app = new Vue({
     },
     prev: function () {
       this.questionIndex--;
+      this.isMultipleChoice();
       var selectedAnswers = document.querySelectorAll(".answer.active");
       if (selectedAnswers.length) {
         this.questionAnswered = true;
@@ -68,7 +74,7 @@ let app = new Vue({
 
       // is question multiple choice?
 
-      var multipleChoice = (this.questions[this.questionIndex].acf.question.multiple_choice === "Yes" ? this.multipleChoice = true : this.multipleChoice = false);
+      // var multipleChoice = (this.questions[this.questionIndex].acf.question.multiple_choice === "Yes" ? this.multipleChoice = true : this.multipleChoice = false);
 
       // set selected answer to an active state, set questionAnswered to true
 
@@ -82,15 +88,17 @@ let app = new Vue({
 
       } else {
 
-        target.classList.add("active");
-
-        this.questionAnswered = true;
+        let activeQuestion = () => {
+          this.questionAnswered = true;
+          target.classList.add("active");
+        }
 
         // Push selected answer(s) to answers array
 
         if (this.questions[this.questionIndex].acf.question.answers[index]) {
 
-          if (!multipleChoice && !this.questionAnswered) {
+          if (!this.multipleChoice && !this.questionAnswered) {
+
             app.answers.push({
               questionIndex: app.questionIndex,
               id: target.dataset.id,
@@ -98,7 +106,11 @@ let app = new Vue({
               answer: target.dataset.answer,
               recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
             });
-          } else {
+
+            activeQuestion();
+
+          } else if (this.multipleChoice) {
+
             app.answers.push({
               questionIndex: app.questionIndex,
               id: target.dataset.id,
@@ -106,6 +118,9 @@ let app = new Vue({
               answer: target.dataset.answer,
               recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
             });
+
+            activeQuestion();
+
           }
 
         }
@@ -168,6 +183,6 @@ let app = new Vue({
   computed: {
     reverseItems() {
       return app.questions.reverse();
-    }
+    },
   }
 });
