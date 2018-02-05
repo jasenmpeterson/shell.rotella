@@ -97,17 +97,25 @@ let app = new Vue({
 
         if (this.questions[this.questionIndex].acf.question.answers[index]) {
 
-          if (!this.multipleChoice && !this.questionAnswered) {
+          if (!this.multipleChoice) {
 
-            app.answers.push({
-              questionIndex: app.questionIndex,
-              id: target.dataset.id,
-              question_weight: target.dataset.weight,
-              answer: target.dataset.answer,
-              recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
-            });
+            if (!this.questionAnswered) {
 
-            activeQuestion();
+              app.answers.push({
+                questionIndex: app.questionIndex,
+                id: target.dataset.id,
+                question_weight: target.dataset.weight,
+                answer: target.dataset.answer,
+                recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
+              });
+
+              activeQuestion();
+            } else {
+
+              let tooltip = target.parentNode.getElementsByClassName("answer__tooltip")[0];
+              this.toolTip("Whoops! Only one answer is allowed for this question.", tooltip);
+
+            }
 
           } else if (this.multipleChoice) {
 
@@ -178,6 +186,10 @@ let app = new Vue({
     closeModalPopUp: function () {
       let modal = document.querySelector(".modal-box");
       modal.classList.remove("active")
+    },
+    toolTip: function (message, tooltip) {
+      tooltip.innerHTML = message;
+      tooltip.classList.add("active");
     }
   },
   computed: {

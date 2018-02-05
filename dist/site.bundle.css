@@ -2448,7 +2448,8 @@ h1.title {
 
 .answer__wrap {
   display: inline-block;
-  margin-right: 1rem; }
+  margin-right: 1rem;
+  position: relative; }
 
 .answer {
   font-family: 'futura_mediumregular';
@@ -2767,5 +2768,40 @@ button:after {
 
 span.close {
   cursor: pointer; }
+
+.answer__tooltip {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  opacity: 0;
+  z-index: -1;
+  transform: translate(-50%, -100%);
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  background: #000;
+  color: #fff; }
+
+.answer__tooltip:after {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  content: "";
+  border: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: transparent;
+  border-top-color: #000;
+  transform: translate(-50%, 100%); }
+
+.answer__tooltip.active {
+  opacity: 1;
+  transform: translate(-50%, -150%);
+  z-index: 5; }
 
 /*# sourceMappingURL=site.bundle.css.map*/
