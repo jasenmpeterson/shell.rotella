@@ -33,14 +33,30 @@ let app = new Vue({
     next: function () {
 
       // make sure the question has been answered before proceeding
-      // TODO: LOGIC FOR SINGLE ANSWER AND MULTIPLE CHOICE QUESTIONS.
 
       if (this.questionAnswered) {
-        this.questionAnswered = false;
+
         this.questionIndex++;
+
+        // if a answer with a matching questionIndex has been found set the state of the question to answered: true
+
+        this.answers.filter(function (obj) {
+          if (obj.questionIndex === app.questionIndex) {
+            app.questionAnswered = true;
+          } else {
+            app.questionAnswered = false;
+          }
+        });
+
         this.isMultipleChoice();
+
+        // Hide tooltip
+        this.removeToolTip();
+
       } else {
+
         this.modalPopUp("Please select an answer before proceeding.");
+
       }
 
       // if last question...
@@ -53,6 +69,8 @@ let app = new Vue({
     prev: function () {
       this.questionIndex--;
       this.isMultipleChoice();
+      // Hide tooltip
+      this.removeToolTip();
       var selectedAnswers = document.querySelectorAll(".answer.active");
       if (selectedAnswers.length) {
         this.questionAnswered = true;
@@ -109,7 +127,12 @@ let app = new Vue({
                 recommendations: (this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations !== null ? this.questions[this.questionIndex].acf.question.answers[index].answer.recommendations : null)
               });
 
+              // Hide tooltip
+
+              this.removeToolTip();
+
               activeQuestion();
+
             } else {
 
               let tooltip = target.parentNode.getElementsByClassName("answer__tooltip")[0];
@@ -190,6 +213,13 @@ let app = new Vue({
     toolTip: function (message, tooltip) {
       tooltip.innerHTML = message;
       tooltip.classList.add("active");
+    },
+    removeToolTip: function () {
+      let activeToolTip = document.querySelector(".answer__tooltip.active");
+
+      if (activeToolTip !== null) {
+        activeToolTip.classList.remove("active");
+      }
     }
   },
   computed: {
