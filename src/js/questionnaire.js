@@ -172,8 +172,10 @@ let app = new Vue({
     filterRecommendations: function () {
 
       for (let obj of this.answers) {
-        for (let recommendation of obj.recommendations) {
-          document.querySelector("[data-name='" + recommendation.post_title + "'").classList.add("active");
+        if (obj.recommendations !== null && obj.recommendations !== undefined) {
+          for (let recommendation of obj.recommendations) {
+            document.querySelector("[data-name='" + recommendation.post_title + "'").classList.add("active");
+          }
         }
       };
 
